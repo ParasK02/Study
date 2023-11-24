@@ -1,0 +1,17 @@
+{% extends "quiz/layout.html" %}
+{% block body %}
+<a href="{% url 'viewCourse' course.id%}"> Back to {{course.title}}</a>
+<h1>{{assignment.title}}</h1>
+<div>
+    <h3>Description</h3>
+    <p>{{assignment.description}}</p>
+</div>
+<h3>
+    Due: {{assignment.dueDay}} {{assignment.deadline}}
+</h3>
+<a href="">Add Submission</a>
+
+
+
+
+{% endblock %}

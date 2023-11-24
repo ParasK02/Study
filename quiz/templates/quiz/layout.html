@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{% block title %}LMS{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="{% static 'quiz/styles.css' %}" rel="stylesheet">
+    <script src="{% static 'quiz/index.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+</head>
+
+<body>
+    <div class="header">
+        {% if user.is_authenticated %}
+        <div >
+            <a class="headerItem" href="{% url 'index' %}">Home</a>
+        </div>
+
+        <div >
+            <a class="headerItem" href="">Courses</a>
+        </div>
+
+        <div >
+            <a class="headerItem" href="">{{ user.username }}</a>
+        </div>
+        {% else %}
+        <div >
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+        {% endif %}
+
+    </div>
+
+
+    <div>
+        {% block body %}
+        
+        {% endblock %}
+    </div>
+</body>
+
+
+</html>

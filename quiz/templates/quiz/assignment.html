@@ -1,0 +1,22 @@
+{% extends "quiz/layout.html" %}
+{% block body %}
+<div>
+    <p>{{message}}</p>
+    <form id="createAssignmentForm" method="post">
+        {% csrf_token %}
+        <label for="title">Assignment:</label>
+        <input type="text" name="assignment" placeholder="Assignment Name">
+
+        <label for="assignment_description">Description:</label>
+        <textarea id="assignment_description" name="assignment_description" rows="4" placeholder="Insert Assignment Description"></textarea>
+
+        <label for="due_date">Assignment Due:</label>
+        <input type="date" id="due_date" name="due_date">
+
+        <label for="deadline">Assignment Deadline:</label>
+        <input type="time" id="deadline" name="deadline" max="11;59" min="0:00">
+        <input type="hidden" name="lesson_id" value="{{ lesson.id }}">
+        <button type="submit">Create</button>
+      </form>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "quiz/layout.html" %}
+
+{% block body %}
+    <div>
+        <!-- Home Page -->
+        <button id="openModalBtn">Create Course</button>
+
+        <!-- Modal -->
+        <div id="createCourseModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="createCourseForm" action="{% url 'create' %}" method="post">
+                    {% csrf_token %}
+                    <label for="title">Title:</label>
+                    <input type="text" name="title" placeholder="Course Name">
+
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" placeholder="Insert Course Overview"></textarea>
+
+                    <button type="submit">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        {% for course in courses %}
+        <div class="ag-format-container">
+            <div class="ag-courses_box">
+              <div class="ag-courses_item">
+                <a href="{% url 'viewCourse' course.id%}" class="ag-courses-item_link">
+                  <div class="ag-courses-item_bg"></div>
+                  <div class="ag-courses-item_title">
+                    {{ course.title }}
+                  </div>
+                  <div class="ag-courses-item_date-box">
+                    <span class="ag-courses-item_date">
+                        Taught by:
+                    </span>
+                    {{ course.professor }}
+                    </span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+    
+{% endblock %}

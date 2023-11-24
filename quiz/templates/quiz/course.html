@@ -1,0 +1,38 @@
+{% extends "quiz/layout.html" %}
+{% block body %}
+  <h1>{{course.title}}</h1>
+  <button id="openModalBtn">Create Lesson</button>
+  
+  <!-- Lesson Modal -->
+  <div id="createCourseModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form id="createCourseForm" action="{% url 'lesson' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="title">Title:</label>
+        <input type="text" name="title" placeholder="Lesson Name">
+
+        <label for="overview">Overview:</label>
+        <input type="text" name="overview" placeholder="General Overview">
+
+        <input type="hidden" name="course_id" value="{{ course.id }}">
+        <button type="submit" onclick="submitForm('createCourseForm', handleLessonSubmission)">Create</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="lessonList">
+    {% for lesson in course.lessons.all %}
+      <div>
+        <h3>{{lesson.title}}</h3>
+        <a href="{% url 'assignmentCreate' course.id lesson.id%}" class="openAssignmenBtn" >Add Assignment</a>
+        <h4>Assignments:</h4>
+        {% for assignment in lesson.assignments.all %}
+          <ul>
+            <li><a href="{% url 'viewAssignment' course.id lesson.id assignment.id%}">{{assignment.title}}</a></li>
+          </ul>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
