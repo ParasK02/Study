@@ -27,6 +27,9 @@
         <div >
             <a class="headerItem" href="">{{ user.username }}</a>
         </div>
+        <div >
+            <a class="headerItem" href="{% url 'logout' %}">Logout</a>
+        </div>
         {% else %}
         <div >
             <a href="{% url 'login' %}">Login</a>

@@ -23,28 +23,30 @@
         </div>
     </div>
 
-    <div>
-        {% for course in courses %}
-        <div class="ag-format-container">
-            <div class="ag-courses_box">
-              <div class="ag-courses_item">
-                <a href="{% url 'viewCourse' course.id%}" class="ag-courses-item_link">
-                  <div class="ag-courses-item_bg"></div>
-                  <div class="ag-courses-item_title">
-                    {{ course.title }}
-                  </div>
-                  <div class="ag-courses-item_date-box">
-                    <span class="ag-courses-item_date">
-                        Taught by:
-                    </span>
-                    {{ course.professor }}
-                    </span>
-                  </div>
-                </a>
+ 
+    
+    <div class="ag-format-container">
+        <div class="ag-courses_box">
+          {% for course in courses %}
+          <div class="ag-courses_item">
+            <a href="{% url 'viewCourse' course.id%}" class="ag-courses-item_link">
+              <div class="ag-courses-item_bg"></div>
+              <div class="ag-courses-item_title">
+                {{ course.title }}
               </div>
-            </div>
+              <div class="ag-courses-item_date-box">
+                Taught by:
+                <span class="ag-courses-item_date">
+                  {{ course.professor }}
+                </span>
+                </span>
+              </div>
+            </a>
           </div>
-        {% endfor %}
-    </div>
+          {% endfor %}
+        </div>
+      </div>
+
+
     
 {% endblock %}

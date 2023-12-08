@@ -11,9 +11,13 @@ urlpatterns = [
     path('<int:courseID>/<int:lessonID>/create-assignment', views.createAssignment, name = 'assignmentCreate'),
     path('<int:courseID>/<int:lessonID>/<int:assignmentID>', views.viewAssignment, name = 'viewAssignment'),
 
-
+    path('<int:courseID>/<int:lessonID>/<int:assignmentID>/submit', views.submission, name='submission'),
     path('create', views.createCourse, name='create'),
     path("<int:courseID>", views.viewCourse, name="viewCourse"),
     path('lesson', views.createLesson, name='lesson'),
+    
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

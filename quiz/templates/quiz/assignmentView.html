@@ -9,9 +9,68 @@
 <h3>
     Due: {{assignment.dueDay}} {{assignment.deadline}}
 </h3>
-<a href="">Add Submission</a>
 
+<h4>Submission status</h4>
+<button  id="addSubmissionLink">Add Submission</button>
+<div id="fileUploadContainer" style="display: none;">
+    <form id="submissionForm" action="{% url 'submission' course.id lesson.id assignment.id%}" method="post" enctype="multipart/form-data" data-course-id="{{ course.id }}" data-lesson-id="{{ lesson.id }}" data-assignment-id="{{ assignment.id }}">
+        <br>
+        <label for="content">Content:</label>
+        <br>
+        <textarea id="content" name="content" rows="10" cols="50" required></textarea>
+        <br>
+        <input type="file" id="file" name="file">
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<div>
+    {% for submissions in assignment.submission.all  %}
+    <div>
+        <p>{{submissions.content}}</p>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector("#addSubmissionLink").addEventListener("click", function () {
+        document.querySelector("#fileUploadContainer").style.display = "block";
+    
+    
+        document.querySelector("#submissionForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const courseID = this.getAttribute("data-course-id");
+            const lessonID = this.getAttribute("data-lesson-id");
+            const assignmentID = this.getAttribute("data-assignment-id");
+
+            submitAssignment(courseID, lessonID, assignmentID);
+        });
+    })});
+
+        async function submitAssignment(courseID, lessonID, assignmentID){
+            const formData = new FormData();
+            
+            formData.append("content", document.querySelector("#content").value);
+            formData.append("file", document.querySelector("#file").files[0]);
+
+            fetch(`/${courseID}/${lessonID}/${assignmentID}/submit`, {
+                method: "POST",
+                body: formData,
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                // Handle success response
+                // Redirect or update UI as needed
+            })
+            .catch((error) => console.error(error));
+        }
+    </script>
 
 
 
 {% endblock %}
+
+    

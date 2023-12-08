@@ -1,12 +1,15 @@
+from datetime import datetime
 from django.db import IntegrityError
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
+import json
 
-from quiz.models import User, Course, Lesson, Assignment
+from quiz.models import User, Course, Lesson, Assignment, Submission
 
 
 def index(request):
@@ -126,7 +129,26 @@ def createAssignment(request,lessonID,courseID):
 def viewAssignment(request,assignmentID,courseID,lessonID):
     assignment = get_object_or_404(Assignment,id=assignmentID)
     course = get_object_or_404(Course,id=courseID)
-    return render(request,'quiz/assignmentView.html',{'assignment':assignment, 'course':course})
+    lesson = get_object_or_404(Lesson,id=lessonID)
+    return render(request,'quiz/assignmentView.html',{'assignment':assignment, 'course':course, 'lesson': lesson})
+
+@login_required
+@csrf_exempt
+def submission(request, courseID, lessonID, assignmentID):
+    if request.method == "POST":
+        user = request.user
+        file = request.FILES.get('file')
+        submissiondate = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        assignment = get_object_or_404(Assignment, id=assignmentID)
+        submission = Submission(user = user, content=file, submission_date=submissiondate)
+        submission.save()
+        assignment.submission.add(submission)
+        assignment.save()
+        return JsonResponse({"success": "Submission saved successfully!"}, status=201)
+    else:
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+
 
 
         

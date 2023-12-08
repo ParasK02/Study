@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+
     
 });
 
@@ -54,3 +55,5 @@ $('#createCourseForm').submit(function (event) {
     });
 });
 
+
+    

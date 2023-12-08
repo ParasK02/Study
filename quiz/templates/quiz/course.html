@@ -23,16 +23,19 @@
 
   <div id="lessonList">
     {% for lesson in course.lessons.all %}
-      <div>
+      <div class="lessonCard">
         <h3>{{lesson.title}}</h3>
-        <a href="{% url 'assignmentCreate' course.id lesson.id%}" class="openAssignmenBtn" >Add Assignment</a>
+        <a href="{% url 'assignmentCreate' course.id lesson.id %}" class="openAssignmentBtn">Add Assignment</a>
         <h4>Assignments:</h4>
         {% for assignment in lesson.assignments.all %}
           <ul>
-            <li><a href="{% url 'viewAssignment' course.id lesson.id assignment.id%}">{{assignment.title}}</a></li>
+            <li><a href="{% url 'viewAssignment' course.id lesson.id assignment.id %}">{{assignment.title}}</a></li>
           </ul>
         {% endfor %}
       </div>
     {% endfor %}
   </div>
+  
+
+
 {% endblock %}

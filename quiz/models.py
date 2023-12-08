@@ -33,7 +33,15 @@ class Assignment(models.Model):
     dueDay = models.DateField()
     deadline = models.TimeField()
     lesson = models.ForeignKey('Lesson',on_delete=models.CASCADE)
+    submission = models.ManyToManyField('Submission', related_name='assignments', blank=True)
     def __str__(self):
         return self.title
+
+class Submission(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255, blank=True)
+    content = models.FileField(upload_to='submissions/', blank=True)
+    submission_date = models.DateTimeField(auto_now_add=True, blank=True)
+    
 
 
