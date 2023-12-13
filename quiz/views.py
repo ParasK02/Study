@@ -137,13 +137,15 @@ def viewAssignment(request,assignmentID,courseID,lessonID):
 def submission(request, courseID, lessonID, assignmentID):
     if request.method == "POST":
         user = request.user
-        file = request.FILES.get('file')
         submissiondate = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         assignment = get_object_or_404(Assignment, id=assignmentID)
-        submission = Submission(user = user, content=file, submission_date=submissiondate)
-        submission.save()
-        assignment.submission.add(submission)
-        assignment.save()
+        files = request.FILES.getlist('files')
+        for file in files:
+            submission = Submission(user = user, content=file, submission_date=submissiondate)
+            submission.save()
+            assignment.submission.add(submission)
+            assignment.save()
+        
         return JsonResponse({"success": "Submission saved successfully!"}, status=201)
     else:
         return JsonResponse({"error": "POST request required."}, status=400)

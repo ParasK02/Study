@@ -34,3 +34,27 @@ class AssignmentSubmissionTest(TestCase):
         self.assertEqual(Submission.objects.count(), 1)  # Assuming a Submission should be created
 
         # Additional assertions as necessary
+    def test_file_upload2(self):
+        # Log in the test user
+        self.client.login(username='testuser', password='password')
+
+        # Prepare a sample file
+        sample_file = SimpleUploadedFile("test_file.txt", b"file_content", content_type="text/plain")
+        sample_file2 = SimpleUploadedFile("test_file2.txt", b"file_content", content_type="text/plain")
+
+        sample_files = [sample_file, sample_file2]
+        # Build the POST request data
+        data = {
+            'title': 'Test Submission',
+            'content': sample_files,
+            # Add other form fields if necessary
+        }
+
+        # Send POST request
+        response = self.client.post(reverse('submission', args=[self.assignment.id, self.lesson.id, self.course.id]), data)
+
+        # Check that the response is what you expect
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Submission.objects.count(), 2)  # Assuming a Submission should be created
+
+        # Additional assertions as necessary

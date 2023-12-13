@@ -19,7 +19,7 @@
         <br>
         <textarea id="content" name="content" rows="10" cols="50" required></textarea>
         <br>
-        <input type="file" id="file" name="file">
+        <input type="file" id="file" name="files" multiple>
         <input type="submit" value="Submit">
     </form>
 </div>
@@ -51,10 +51,12 @@
 
         async function submitAssignment(courseID, lessonID, assignmentID){
             const formData = new FormData();
-            
+            const files = document.querySelector("#file").files;
             formData.append("content", document.querySelector("#content").value);
-            formData.append("file", document.querySelector("#file").files[0]);
-
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
+            
             fetch(`/${courseID}/${lessonID}/${assignmentID}/submit`, {
                 method: "POST",
                 body: formData,
